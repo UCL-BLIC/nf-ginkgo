@@ -1,4 +1,4 @@
-# nf-core/wgsalign: Usage
+# nf-core/ginkgo: Usage
 
 ## Table of contents
 
@@ -9,6 +9,8 @@
         * [`myriad`](#awsbatch)
     * [`--reads`](#--reads)
     * [`--singleEnd`](#--singleend)
+    * [`--ginkgo_bintype`](#--ginkgo_bintype)
+    * [`--ginkgo_binsize`](#--ginkgo_binsize)
 * [Reference Genomes](#reference-genomes)
     * [`--genome`](#--genome)
     * [`--fasta`](#--fasta)
@@ -33,7 +35,7 @@ module load blic-modules
 module load nextflow
 module load ginkgo
 
-nextflow_wgsalign --reads '*_R{1,2}.fastq.gz' --genome GRCh37
+nextflow_wgsalign --reads '*_R{1,2}.fastq.gz'
 ```
 
 This will launch the pipeline with the `legion` or `myriad` configuration profile, depending on where you submit the job from.
@@ -89,10 +91,23 @@ By default, the pipeline expects paired-end data. If you have single-end data, y
 
 It is not possible to run a mixture of single-end and paired-end files in one run.
 
+### `--ginkgo_bintype`
+Ginkgo counts reads in bins of predefined size (see [`--ginkgo_binsize`](#--ginkgo_binsize) for available sizes). Two types of bins are available: `fixed` and `variable`.
+
+* `fixed`
+    * Bins have all the same size
+* `variable` [default]
+    * Bins are adjusted for mappability along the genome.
+
+
+### `--ginkgo_binsize`
+Provided with Ginkgo are pre-calculated genome bins of either fixed or variable length (see [`--ginkgo_bintype`](#--ginkgo_bintype) for more info). For the GRCh37 human reference genome (referred as hg19 by Ginkgo), the possible bin sizes are: `5000`, `10000`, `25000`, `50000`, `100000`, `175000`, `250000`, `500000`, `1000000`, `2500000`, `5000000`, `10000000`.
+
+The default bin size is `100000`.
 
 ## Reference Genomes
 
-While the pipeline is based on the nf-core/wgsalign pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. At the moment, the pipeline can only use GRCh37, if you want to use a different one, you must specify it with the `--genome` flag.
+While the pipeline is based on the nf-core/wgsalign pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. If you wanted to use a different one, you would have to specify it with the `--genome` flag.
 
 * Human
   * `--genome GRCh37`
