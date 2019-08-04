@@ -1,5 +1,5 @@
 # nf-ginkgo
-**Nextflow pipeleine for Ginkgo (scWGS)**
+**Nextflow pipeline for Ginkgo (scWGS)**
 
 [![Build Status](https://travis-ci.org/nf-core/wgsalign.svg?branch=master)](https://travis-ci.org/nf-core/wgsalign)
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A50.32.0-brightgreen.svg)](https://www.nextflow.io/)
