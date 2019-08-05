@@ -32,16 +32,19 @@ def helpMessage() {
 
     The typical command for running the pipeline is as follows:
 
-    nextflow_wgsalign --reads '*_R{1,2}.fastq.gz' --genome GRCh38
+    nextflow_wgsalign --reads '*_R{1,2}.fastq.gz'
 
     Mandatory arguments:
       --reads                       Path to input data (must be surrounded with quotes) ['data/*{1,2}.fastq.gz']
-      --genome                      Name of iGenomes reference (GRCh37, GRCh38, GRCm38) [GRCh38]
+      --genome                      Name of iGenomes reference (GRCh37) [GRCh37]
 
     Options:
       --singleEnd                   Specifies that the input is single end reads
       --allow_multi_align           Secondary alignments and unmapped reads are also reported in addition to primary alignments
-      
+      --ginkgo_bintype              Ginkgo counts reads in bins. Variable bins are adjusted for mappability (fixed, variable) [variable] 
+      --ginkgo_binsize              Bin size used by Ginkgo (5000, 10000, 25000, 50000, 100000, 175000, 250000, 500000,
+                                    1000000, 2500000, 5000000, 10000000) [100000]
+
     References                      If not specified in the configuration file or you wish to overwrite any of the references.
       --fasta                       Path to Fasta reference
       --bwa_index                   Path to BWA index
