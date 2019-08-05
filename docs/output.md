@@ -1,6 +1,6 @@
-# nf-core/wgsalign Output
+# nf-core/ginkgo Output
 
-**nf-core/wgsalign** is a pipeline for basic preprocessing of WGS data.
+**nf-core/ginkgo** is a pipeline for basic preprocessing of single cell WGS data.
 
 This document describes the output produced by the pipeline.
 
@@ -14,6 +14,7 @@ and processes data using the following steps:
 * [SAMtools](#samtools) - alignment result processing
 * [Bedtools](#bedtools) - bam to bed file conversion
 * [Picard](#picard) - duplicate reads removal
+* [Ginkgo](#ginkgo) - read binnning, single cell QC and heatmaps w/ clustering
 * [MultiQC](#multiqc) - aggregate report, describing results of the whole pipeline
 
 ## FastQC
@@ -61,12 +62,16 @@ Single-end data will have slightly different file names and only one FastQ file 
 
 **Output directory: `results/bwa`**
 
+* `sample.bam`
+  * The unsorted aligned BAM file (only when `--saveAlignedIntermediates`)
 * `sample.sorted.bam`
-  * The sorted aligned BAM file
+  * The sorted aligned BAM file (only when `--saveAlignedIntermediates`)
 * `sample.sorted.bam.bai`
-  * The index file for aligned BAM file
-* `sample.sorted.bed`
-  * The sorted aligned BED file
+  * The index file for aligned BAM file (only when `--saveAlignedIntermediates`)
+* `mapped/mapped_regenome.txt`
+  * Number of mapped and unmapped reads per sample (number of unmapped reads will be 0 unless you use the `--saveAlignedIntermediates` option
+* `stats/sample.stats.txt`
+  * output of `samtools stats` for each sample
 
 ## Picard
 The [MarkDuplicates](https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates) module in the [Picard](https://broadinstitute.github.io/picard/) toolkit differentiates the primary and duplicate reads using an algorithm that ranks reads by the sums of their base-quality scores, which helps to identify duplicates that arise during sample preparation e.g. library construction using PCR.
@@ -85,6 +90,46 @@ The Picard section of the MultiQC report shows a bar plot with the numbers and p
   * The sorted aligned BED file after duplicate removal
 * `sample.picardDupMetrics.txt`
   * The log report for duplicate removal
+
+## Ginkgo
+[Ginkgo](http://qb.cshl.edu/ginkgo) is a web tool for the analysis of single cell copy number data from whole-genome sequencing data. It was developed mainly by Robert Aboukhalil in Mike Schatz's lab. Further to the web interface, a CLI was made available. In essence, the genome is split into bins and the Ginkgo counts the number of reads within each bin. These numbers are mean-centered, GC corrected using a Lowess correction, Log2'ed, segmented with [DNAcopy](https://bioconductor.org/packages/release/bioc/html/DNAcopy.html), the best fit ploidy is estimated using a sweep search between 1.5 and 6 (in 0.05 intervals) and values are adjusted (rounded to the closest integer. Several QC plots and visualisattions are available for each sample.
+
+**Output directory: `results/ginkgo`**
+
+*Note: all the data are packaged into a file called `archive.tar.gz`*
+
+* `data`
+  * Table containing the raw read counts per bin per cell.
+* `SegNorm`
+  * Table containing the read counts after GC-lowess normalisation per bin per cell.
+* `SegFixed`
+  * Table containing the read counts after segmentation (before ploidy adjustement) per bin per cell.
+* `SegCopy`
+  * Final CN estiamates per bin per cell.
+* `SegStats`
+  * Final containing basic stats on read counts per bin for each cell (number of reads, variance, dispersion, etc).
+* `sample_CN.jpeg`
+  * Plot showing adjusted count data and copy number estimates along the genome
+* `sample_counts.jpeg`
+  * Histogram of read counts per bin
+* `sample_dist.jpeg`
+  * Plot showing raw read counts along the genome
+* `sample_GC.jpeg`
+  * Normalized read counts per bin vs bin GC content, before and after Lowess correction.
+* `sample_hist.jpeg`
+  * Histogram of CN estimates (adjusted for ploidy) before segmentation.
+* `sample_lorenz.jpeg`
+  * Lorenz stauration curve representing overage uniformity
+* `sample_SoS.jpeg`
+  * Sum of Squares error along potential ploidy numbers (1.5-6.0)
+* `clust.jpeg`, `clust.newick`, `clust.pdf`, `clust.xml`
+  * Clustering based on distances between cells using the `SegFixed` data
+* `clust2.jpeg`, `clust2.newick`, `clust2.pdf`, `clust2.xml`
+  * Clustering based on distances between cells using the `SegCopy` data
+* `clust3.jpeg`, `clust3.newick`, `clust3.pdf`, `clust3.xml`
+  * Clustering based on correlations between cells using the `SegCopy` data
+* `heatCN.jpeg`, `heatCor.jpeg`, `heatNorm.jpeg`, `heatRaw.jpeg`
+  * Heatmaps of the cells based on different data
 
 ## MultiQC
 [MultiQC](http://multiqc.info) is a visualisation tool that generates a single HTML report summarising all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in within the report data directory.
