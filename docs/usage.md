@@ -1,4 +1,4 @@
-# nf-core/ginkgo: Usage
+# nf-ginkgo: Usage
 
 ## Table of contents
 
@@ -114,7 +114,7 @@ The default bin size is `100000`.
 
 ## Reference Genomes
 
-While the pipeline is based on the nf-core/ginkgo pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. If you wanted to use a different one, you would have to specify it with the `--genome` flag.
+While the pipeline is based on the nf-ginkgo pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. If you wanted to use a different one, you would have to specify it with the `--genome` flag.
 
 * Human
   * `--genome GRCh37`

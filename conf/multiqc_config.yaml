@@ -14,8 +14,8 @@ module_order:
     - ginkgo-summary
     - ginkgo
 report_section_order:
-    nf-core-ginkgo-summary:
+    nf-ginkgo-summary:
         order: -1000
-    nf-core_ginkgo-software-versions:
+    nf-ginkgo-software-versions:
         order: -1100
 plots_force_interactive: false

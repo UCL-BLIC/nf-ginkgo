@@ -1,4 +1,4 @@
-# nf-core/ginkgo: Troubleshooting
+# nf-ginkgo: Troubleshooting
 
 ## Input files not found
 

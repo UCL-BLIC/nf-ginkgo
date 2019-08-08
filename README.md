@@ -1,7 +1,7 @@
-# nf-core/ginkgo
+# nf-ginkgo
 **Nextflow pipeline for Ginkgo (scWGS)**
 
-[![Build Status](https://travis-ci.org/nf-core/ginkgo.svg?branch=master)](https://travis-ci.org/nf-core/ginkgo)
+[![Build Status](https://travis-ci.org/nf-ginkgo.svg?branch=master)](https://travis-ci.org/nf-ginkgo)
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A50.32.0-brightgreen.svg)](https://www.nextflow.io/)
 
 
@@ -22,7 +22,7 @@ This pipeline runs:
 9. Output Description HTML
 
 ### Documentation
-The nf-ginkgo pipeline is based on the nf-core/ginkgo pipeline. It comes with documentation about the pipeline, found in the `docs/` directory:
+The nf-ginkgo pipeline is based on the [wgsalign](https://github.com/UCL-BLIC/wgsalign) pipeline. It comes with documentation about the pipeline, found in the `docs/` directory:
 
 1. [Installation](docs/installation.md)
 2. [Running the pipeline](docs/usage.md)

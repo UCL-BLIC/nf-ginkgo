@@ -1,6 +1,6 @@
-# nf-core/ginkgo: Documentation
+# nf-ginkgo: Documentation
 
-The nf-core/ginkgo documentation is split into the following files:
+The nf-ginkgo documentation is split into the following files:
 
 1. [Installation](installation.md)
 2. [Running the pipeline](usage.md)

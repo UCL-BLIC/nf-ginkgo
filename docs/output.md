@@ -1,6 +1,6 @@
-# nf-core/ginkgo Output
+# nf-ginkgo Output
 
-**nf-core/ginkgo** is a pipeline for basic preprocessing of single cell WGS data.
+**nf-ginkgo** is a pipeline for basic preprocessing of single cell WGS data.
 
 This document describes the output produced by the pipeline.
 

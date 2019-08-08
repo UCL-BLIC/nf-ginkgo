@@ -1,4 +1,4 @@
-# nf-core/ginkgo: Installation
+# nf-ginkgo: Installation
 
 The ginkgo pipeline is already installed in legion and myriad. You just need to load nextflow and start using it:
 

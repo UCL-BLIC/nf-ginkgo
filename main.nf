@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ========================================================================================
-                         nf-core/ginkgo
+                         nf-ginkgo
 ========================================================================================
- nf-core/ginkgo Analysis Pipeline.
+ nf-ginkgo Analysis Pipeline.
  #### Homepage / Documentation
  https://github.com/UCL-BLIC/nf-ginkgo
 ----------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Pipeline overview:
 def helpMessage() {
     log.info"""
     =========================================
-     nf-core/ginkgo v${workflow.manifest.version}
+     nf-ginkgo v${workflow.manifest.version}
     =========================================
     Usage:
 
@@ -140,10 +140,10 @@ log.info """=======================================================
     | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                           `._,._,\'
 
-nf-core/ginkgo v${workflow.manifest.version}"
+nf-ginkgo v${workflow.manifest.version}"
 ======================================================="""
 def summary = [:]
-summary['Pipeline Name']  = 'nf-core/ginkgo'
+summary['Pipeline Name']  = 'nf-ginkgo'
 summary['Pipeline Version'] = workflow.manifest.version
 summary['Run Name']     = custom_runName ?: workflow.runName
 summary['Reads']        = params.reads
@@ -184,9 +184,9 @@ def create_workflow_summary(summary) {
 
     def yaml_file = workDir.resolve('workflow_summary_mqc.yaml')
     yaml_file.text  = """
-    id: 'nf-core-ginkgo-summary'
+    id: 'nf-ginkgo-summary'
     description: " - this information is collected when the pipeline is started."
-    section_name: 'nf-core/ginkgo Workflow Summary'
+    section_name: 'nf-ginkgo Workflow Summary'
     section_href: 'https://github.com/UCL-BLIC/nf-ginkgo'
     plot_type: 'html'
     data: |
@@ -519,9 +519,9 @@ process output_documentation {
 workflow.onComplete {
 
     // Set up the e-mail variables
-    def subject = "[nf-core/ginkgo] Successful: $workflow.runName"
+    def subject = "[nf-ginkgo] Successful: $workflow.runName"
     if(!workflow.success){
-      subject = "[nf-core/ginkgo] FAILED: $workflow.runName"
+      subject = "[nf-ginkgo] FAILED: $workflow.runName"
     }
     def email_fields = [:]
     email_fields['version'] = workflow.manifest.version
@@ -569,11 +569,11 @@ workflow.onComplete {
           if( params.plaintext_email ){ throw GroovyException('Send plaintext e-mail, not HTML') }
           // Try to send HTML e-mail using sendmail
           [ 'sendmail', '-t' ].execute() << sendmail_html
-          log.info "[nf-core/ginkgo] Sent summary e-mail to $params.email (sendmail)"
+          log.info "[nf-ginkgo] Sent summary e-mail to $params.email (sendmail)"
         } catch (all) {
           // Catch failures and try with plaintext
           [ 'mail', '-s', subject, params.email ].execute() << email_txt
-          log.info "[nf-core/ginkgo] Sent summary e-mail to $params.email (mail)"
+          log.info "[nf-ginkgo] Sent summary e-mail to $params.email (mail)"
         }
     }
 
@@ -587,6 +587,6 @@ workflow.onComplete {
     def output_tf = new File( output_d, "pipeline_report.txt" )
     output_tf.withWriter { w -> w << email_txt }
 
-    log.info "[nf-core/ginkgo] Pipeline Complete"
+    log.info "[nf-ginkgo] Pipeline Complete"
 
 }
