@@ -1,6 +1,6 @@
-# nf-core/wgsalign: Documentation
+# nf-core/ginkgo: Documentation
 
-The nf-core/wgsalign documentation is split into the following files:
+The nf-core/ginkgo documentation is split into the following files:
 
 1. [Installation](installation.md)
 2. [Running the pipeline](usage.md)

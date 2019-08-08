@@ -36,7 +36,7 @@ module load blic-modules
 module load nextflow
 module load ginkgo
 
-nextflow_wgsalign --reads '*_R{1,2}.fastq.gz'
+nextflow_ginkgo --reads '*_R{1,2}.fastq.gz'
 ```
 
 This will launch the pipeline with the `legion` or `myriad` configuration profile, depending on where you submit the job from.
@@ -54,13 +54,13 @@ results         # Finished results (configurable, see below)
 
 To see all the available arguments, use the `--help` flag
 ```bash
-nextflow_wgsalign --help
+nextflow_ginkgo --help
 ```
 
 The main arguments are:
 
 ### `-profile`
-This parameter is NOT necessary as the shortcut `nextflow_wgsalign` takes care of selecting the appropiate configuration profile. But just for your information, profiles are used to give 
+This parameter is NOT necessary as the shortcut `nextflow_ginkgo` takes care of selecting the appropiate configuration profile. But just for your information, profiles are used to give 
 configuration presets for different compute environments.
 
 * `legion`
@@ -114,7 +114,7 @@ The default bin size is `100000`.
 
 ## Reference Genomes
 
-While the pipeline is based on the nf-core/wgsalign pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. If you wanted to use a different one, you would have to specify it with the `--genome` flag.
+While the pipeline is based on the nf-core/ginkgo pipeline and that accept several reference genome assemblies, you are limited to GRCh37 with Ginkgo. If you wanted to use a different one, you would have to specify it with the `--genome` flag.
 
 * Human
   * `--genome GRCh37`

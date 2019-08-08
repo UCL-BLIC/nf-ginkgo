@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 /*
 ========================================================================================
-                         nf-core/wgsalign
+                         nf-core/ginkgo
 ========================================================================================
- nf-core/wgsalign Analysis Pipeline.
+ nf-core/ginkgo Analysis Pipeline.
  #### Homepage / Documentation
- https://github.com/nf-core/wgsalign
+ https://github.com/UCL-BLIC/nf-ginkgo
 ----------------------------------------------------------------------------------------
 Pipeline overview:
  - 1:   FastQC for raw sequencing reads quality control
@@ -26,13 +26,13 @@ Pipeline overview:
 def helpMessage() {
     log.info"""
     =========================================
-     nf-core/wgsalign v${workflow.manifest.version}
+     nf-core/ginkgo v${workflow.manifest.version}
     =========================================
     Usage:
 
     The typical command for running the pipeline is as follows:
 
-    nextflow_wgsalign --reads '*_R{1,2}.fastq.gz'
+    nextflow_ginkgo --reads '*_R{1,2}.fastq.gz'
 
     Mandatory arguments:
       --reads                       Path to input data (must be surrounded with quotes) ['data/*{1,2}.fastq.gz']
@@ -90,6 +90,7 @@ params.multiqc_config = "$baseDir/conf/multiqc_config.yaml"
 params.email = false
 params.plaintext_email = false
 params.ginkgo_binsize = 100000
+params.read_length = 76
 params.ginkgo_bintype = "variable"
 
 multiqc_config = file(params.multiqc_config)
@@ -139,10 +140,10 @@ log.info """=======================================================
     | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                           `._,._,\'
 
-nf-core/wgsalign v${workflow.manifest.version}"
+nf-core/ginkgo v${workflow.manifest.version}"
 ======================================================="""
 def summary = [:]
-summary['Pipeline Name']  = 'nf-core/wgsalign'
+summary['Pipeline Name']  = 'nf-core/ginkgo'
 summary['Pipeline Version'] = workflow.manifest.version
 summary['Run Name']     = custom_runName ?: workflow.runName
 summary['Reads']        = params.reads
@@ -183,10 +184,10 @@ def create_workflow_summary(summary) {
 
     def yaml_file = workDir.resolve('workflow_summary_mqc.yaml')
     yaml_file.text  = """
-    id: 'nf-core-wgsalign-summary'
+    id: 'nf-core-ginkgo-summary'
     description: " - this information is collected when the pipeline is started."
-    section_name: 'nf-core/wgsalign Workflow Summary'
-    section_href: 'https://github.com/nf-core/wgsalign'
+    section_name: 'nf-core/ginkgo Workflow Summary'
+    section_href: 'https://github.com/UCL-BLIC/nf-ginkgo'
     plot_type: 'html'
     data: |
         <dl class=\"dl-horizontal\">
@@ -518,9 +519,9 @@ process output_documentation {
 workflow.onComplete {
 
     // Set up the e-mail variables
-    def subject = "[nf-core/wgsalign] Successful: $workflow.runName"
+    def subject = "[nf-core/ginkgo] Successful: $workflow.runName"
     if(!workflow.success){
-      subject = "[nf-core/wgsalign] FAILED: $workflow.runName"
+      subject = "[nf-core/ginkgo] FAILED: $workflow.runName"
     }
     def email_fields = [:]
     email_fields['version'] = workflow.manifest.version
@@ -568,11 +569,11 @@ workflow.onComplete {
           if( params.plaintext_email ){ throw GroovyException('Send plaintext e-mail, not HTML') }
           // Try to send HTML e-mail using sendmail
           [ 'sendmail', '-t' ].execute() << sendmail_html
-          log.info "[nf-core/wgsalign] Sent summary e-mail to $params.email (sendmail)"
+          log.info "[nf-core/ginkgo] Sent summary e-mail to $params.email (sendmail)"
         } catch (all) {
           // Catch failures and try with plaintext
           [ 'mail', '-s', subject, params.email ].execute() << email_txt
-          log.info "[nf-core/wgsalign] Sent summary e-mail to $params.email (mail)"
+          log.info "[nf-core/ginkgo] Sent summary e-mail to $params.email (mail)"
         }
     }
 
@@ -586,6 +587,6 @@ workflow.onComplete {
     def output_tf = new File( output_d, "pipeline_report.txt" )
     output_tf.withWriter { w -> w << email_txt }
 
-    log.info "[nf-core/wgsalign] Pipeline Complete"
+    log.info "[nf-core/ginkgo] Pipeline Complete"
 
 }

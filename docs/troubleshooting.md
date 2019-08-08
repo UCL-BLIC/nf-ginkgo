@@ -1,4 +1,4 @@
-# nf-core/wgsalign: Troubleshooting
+# nf-core/ginkgo: Troubleshooting
 
 ## Input files not found
 
