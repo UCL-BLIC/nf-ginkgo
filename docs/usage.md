@@ -10,6 +10,7 @@
     * [`--reads`](#--reads)
     * [`--singleEnd`](#--singleend)
     * [`--ginkgo_bintype`](#--ginkgo_bintype)
+    * [`--read_length`](#--read_length)
     * [`--ginkgo_binsize`](#--ginkgo_binsize)
 * [Reference Genomes](#reference-genomes)
     * [`--genome`](#--genome)
@@ -98,6 +99,12 @@ Ginkgo counts reads in bins of predefined size (see [`--ginkgo_binsize`](#--gink
     * Bins have all the same size
 * `variable` [default]
     * Bins are adjusted for mappability along the genome.
+
+
+### `--read_length`
+Pre-calculated variable length in Ginkgo are adjusted for mappability. As the mappability depends on the read length, this option allows you to select the most appropriate read length for your library. This value is ignored if you use fixed length bins. Possible values are: `48`, `76`, `101`, `150`.
+
+The default read length is `76`.
 
 
 ### `--ginkgo_binsize`

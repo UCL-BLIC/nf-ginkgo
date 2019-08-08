@@ -42,6 +42,7 @@ def helpMessage() {
       --singleEnd                   Specifies that the input is single end reads
       --allow_multi_align           Secondary alignments and unmapped reads are also reported in addition to primary alignments
       --ginkgo_bintype              Ginkgo counts reads in bins. Variable bins are adjusted for mappability (fixed, variable) [variable] 
+      --read_length                 When using variable bin size, the read length affect the mappability adjustmente (48, 76, 101, 150) [76]
       --ginkgo_binsize              Bin size used by Ginkgo (5000, 10000, 25000, 50000, 100000, 175000, 250000, 500000,
                                     1000000, 2500000, 5000000, 10000000) [100000]
 
@@ -434,17 +435,8 @@ process ginkgo {
     # Only add to list the files that are large enough (empty or nearly empty libraries break Ginkgo)
     ls *.bed.gz | while read f; do ls -Ls \$f ; done | awk '\$1 > 1000 {print \$2}' > list
 
-    # Assess the best matching read length for choosing the optimal binning
-    BEST_LENGTH=`get_best_read_length.pl \
---ginkgo \$GINKGO_HOME \
---genome hg19 \
---bin_type ${params.ginkgo_bintype} \
---bin_size ${params.ginkgo_binsize} \
---aligner bwa \
-*.bed.gz`
-
     # Run Ginkgo
-    ginkgo.sh --input \$PWD --genome hg19 --binning ${params.ginkgo_bintype}_${params.ginkgo_binsize}_\${BEST_LENGTH}_bwa --cells list --maskbadbins
+    ginkgo.sh --input \$PWD --genome hg19 --binning ${params.ginkgo_bintype}_${params.ginkgo_binsize}_${params.read_length}_bwa --cells list --maskbadbins
     """
 }
 
