@@ -27,18 +27,16 @@ my @available_read_lengths = map {s/^${bin_type}_${bin_size}_(\d*)_${aligner}/$1
 # print "AVAIL: ", join(" ", @available_read_lengths), "\n";
 
 my $runstr = "ls " . join(" ", @bed_files). ' | while read f; do gunzip -c $f | head -n 1000 | '.
-  'awk \'{print $3 - $2 + 1}\'; done | sort -n | uniq -c | sort -nr | head -n 5 | awk \'{print $2}\'';
+  'awk \'{print $3 - $2 + 1}\'; done | sort -n | uniq -c | sort -nr | head -n 1 | awk \'{print $2}\'';
 
-my @most_common_read_lengths = split(/\s+/, qx"$runstr");
+my $most_common_read_length = qx"$runstr";
 # print "COMMON: ", join(" ", @most_common_read_lengths), "\n";
 
 my $best_read_length = 0;
 my $best_fit = 1e10;
 foreach my $this_avail_length (@available_read_lengths) {
   my $fit = 0;
-  foreach my $this_common_read_length (@most_common_read_lengths) {
-    $fit += abs($this_avail_length - $this_common_read_length)
-  }
+  $fit += abs($this_avail_length - $most_common_read_length);
   if ($fit < $best_fit) {
     $best_fit = $fit;
     $best_read_length = $this_avail_length;
